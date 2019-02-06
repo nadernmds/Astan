@@ -40,7 +40,7 @@ namespace Astan.Controllers
         // GET: ClientMember/Create
         public ActionResult Create()
         {
-            ViewBag.clientID = new SelectList(db.Clients, "clientID", "name");
+            ViewBag.clientID = new SelectList(db.Clients.DecodeClients(), "clientID", "name");
             ViewBag.healthStateID = new SelectList(db.HealthStates, "healthStateID", "healthStateType");
             return View();
         }
@@ -59,7 +59,7 @@ namespace Astan.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.clientID = new SelectList(db.Clients, "clientID", "name", clientMember.clientID);
+            ViewBag.clientID = new SelectList(db.Clients.DecodeClients(), "clientID", "name", clientMember.clientID);
             ViewBag.healthStateID = new SelectList(db.HealthStates, "healthStateID", "healthStateType", clientMember.healthStateID);
             return View(clientMember);
         }
@@ -76,7 +76,7 @@ namespace Astan.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.clientID = new SelectList(db.Clients, "clientID", "name", clientMember.clientID);
+            ViewBag.clientID = new SelectList(db.Clients.DecodeClients(), "clientID", "name", clientMember.clientID);
             ViewBag.healthStateID = new SelectList(db.HealthStates, "healthStateID", "healthStateType", clientMember.healthStateID);
             return View(clientMember);
         }
@@ -94,7 +94,7 @@ namespace Astan.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.clientID = new SelectList(db.Clients, "clientID", "name", clientMember.clientID);
+            ViewBag.clientID = new SelectList(db.Clients.DecodeClients(), "clientID", "name", clientMember.clientID);
             ViewBag.healthStateID = new SelectList(db.HealthStates, "healthStateID", "healthStateType", clientMember.healthStateID);
             return View(clientMember);
         }

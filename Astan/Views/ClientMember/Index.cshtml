@@ -40,7 +40,8 @@
             @Html.DisplayFor(modelItem => item.need)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Client.name)
+            @item.Client.name.DecodeItem()
+            @*@Html.DisplayFor(modelItem => item.Client.name.DecodeItem())*@
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.HealthState.healthStateType)

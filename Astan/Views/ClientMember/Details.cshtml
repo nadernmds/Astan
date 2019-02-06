@@ -39,10 +39,11 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Client.name)
+            model.Client.name.DecodeItem()
         </dd>
 
         <dt>
+
             @Html.DisplayNameFor(model => model.HealthState.healthStateType)
         </dt>
 

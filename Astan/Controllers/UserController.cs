@@ -69,6 +69,7 @@ namespace Astan.Controllers
         public ActionResult Create()
         {
             ViewBag.userGroupID = new SelectList(db.userGroups, "userGroupID", "userGroupName");
+            ViewBag.mosqueID = new SelectList(db.Mosques, "mosqueID", "mosqueName");
             return View();
         }
 
@@ -77,7 +78,7 @@ namespace Astan.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "userID,username,password,name,mobile,userGroupID")] User user)
+        public ActionResult Create([Bind(Include = "userID,username,password,name,mobile,userGroupID,mosqueID")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -87,6 +88,8 @@ namespace Astan.Controllers
             }
 
             ViewBag.userGroupID = new SelectList(db.userGroups, "userGroupID", "userGroupName", user.userGroupID);
+            ViewBag.mosqueID = new SelectList(db.Mosques, "mosqueID", "mosqueName",user.mosqueID);
+
             return View(user);
         }
 
@@ -103,6 +106,8 @@ namespace Astan.Controllers
                 return HttpNotFound();
             }
             ViewBag.userGroupID = new SelectList(db.userGroups, "userGroupID", "userGroupName", user.userGroupID);
+            ViewBag.mosqueID = new SelectList(db.Mosques, "mosqueID", "mosqueName", user.mosqueID);
+
             return View(user);
         }
 
@@ -111,7 +116,7 @@ namespace Astan.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "userID,username,password,name,mobile,userGroupID")] User user)
+        public ActionResult Edit([Bind(Include = "userID,username,password,name,mobile,userGroupID,mosqueID")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -120,6 +125,7 @@ namespace Astan.Controllers
                 return RedirectToAction("Index");
             }
             ViewBag.userGroupID = new SelectList(db.userGroups, "userGroupID", "userGroupName", user.userGroupID);
+            ViewBag.mosqueID = new SelectList(db.Mosques, "mosqueID", "mosqueName", user.mosqueID);
             return View(user);
         }
 

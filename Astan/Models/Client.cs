@@ -34,6 +34,17 @@ namespace Astan.Models
         public string need { get; set; }
         public Nullable<bool> maried { get; set; }
         public Nullable<long> userID { get; set; }
+        public Nullable<System.DateTime> registerDate { get; set; }
+        public Nullable<short> educationID { get; set; }
+        public Nullable<bool> sex { get; set; }
+        public Nullable<byte> homeStateID { get; set; }
+        public string homeStateDescription { get; set; }
+        public string phone { get; set; }
+        public Nullable<bool> Continus { get; set; }
+        public Nullable<bool> goneShrine { get; set; }
+        public string moneySource { get; set; }
+        public Nullable<bool> benefit { get; set; }
+        public Nullable<byte> benfitTypeID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClientMember> ClientMembers { get; set; }
@@ -41,5 +52,7 @@ namespace Astan.Models
         public virtual Mosque Mosque { get; set; }
         public virtual Piority Piority { get; set; }
         public virtual User User { get; set; }
+        public virtual HomeState HomeState { get; set; }
+        public virtual Education Education { get; set; }
     }
 }

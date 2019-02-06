@@ -12,25 +12,18 @@ namespace Astan.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class User
+    public partial class Education
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public User()
+        public Education()
         {
             this.Clients = new HashSet<Client>();
         }
     
-        public long userID { get; set; }
-        public string username { get; set; }
-        public string password { get; set; }
-        public string name { get; set; }
-        public string mobile { get; set; }
-        public Nullable<int> userGroupID { get; set; }
-        public Nullable<long> mosqueID { get; set; }
+        public short educationID { get; set; }
+        public string educationName { get; set; }
     
-        public virtual userGroup userGroup { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Client> Clients { get; set; }
-        public virtual Mosque Mosque { get; set; }
     }
 }

@@ -32,5 +32,8 @@ namespace Astan.Models
         public virtual DbSet<userGroup> userGroups { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Client> Clients { get; set; }
+        public virtual DbSet<BenefitType> BenefitTypes { get; set; }
+        public virtual DbSet<HomeState> HomeStates { get; set; }
+        public virtual DbSet<Education> Educations { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace System
         private const string Key = "pep";
         public static Client EncodeClient(this Client client)
         {
-           string KeyData = Key.ToBase64();
+            string KeyData = Key.ToBase64();
             client.name = client.name.ToBase64(KeyData);
             client.fatherName = client.fatherName.ToBase64(KeyData);
             client.need = client.need.ToBase64(KeyData);
@@ -33,6 +33,10 @@ namespace System
             client.mobile = client.mobile.ToBase64(KeyData);
             client.jobtitle = client.jobtitle.ToBase64(KeyData);
             return client;
+        }
+        public static string DecodeItem(this string item)
+        {
+            return item.FromBase64(Key.ToBase64());
         }
         public static IEnumerable<Client> DecodeClients(this IEnumerable<Client> clients)
         {
@@ -337,7 +341,7 @@ namespace System
         public static string ToBase64(this string str, string parity)
         {
             byte[] Text = System.Text.Encoding.UTF8.GetBytes(str);
-            return (Convert.ToBase64String(Text)+parity).ToBase64();
+            return (Convert.ToBase64String(Text) + parity).ToBase64();
         }
         public static string FromBase64(this string str)
         {

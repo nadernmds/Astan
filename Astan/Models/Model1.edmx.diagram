@@ -19,6 +19,12 @@
         <AssociationConnector Association="AstanModel.FK_Clients_Mosques" />
         <AssociationConnector Association="AstanModel.FK_Clients_Piorities" />
         <AssociationConnector Association="AstanModel.FK_Clients_Users" />
+        <EntityTypeShape EntityType="AstanModel.BenefitType" Width="1.5" PointX="6.75" PointY="0.75" />
+        <EntityTypeShape EntityType="AstanModel.HomeState" Width="1.5" PointX="0.75" PointY="0.875" />
+        <AssociationConnector Association="AstanModel.FK_Clients_HomeStates" />
+        <AssociationConnector Association="AstanModel.FK_Users_Mosques" />
+        <EntityTypeShape EntityType="AstanModel.Education" Width="1.5" PointX="8.375" PointY="3.875" />
+        <AssociationConnector Association="AstanModel.FK_Clients_Educations" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

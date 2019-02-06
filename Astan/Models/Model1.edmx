@@ -5,6 +5,13 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="AstanModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BenefitTypes">
+          <Key>
+            <PropertyRef Name="benefitTypeID" />
+          </Key>
+          <Property Name="benefitTypeID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="benefitTypeName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityType Name="ClientMembers">
           <Key>
             <PropertyRef Name="clientMemberID" />
@@ -34,6 +41,24 @@
           <Property Name="need" Type="nvarchar(max)" />
           <Property Name="maried" Type="bit" />
           <Property Name="userID" Type="bigint" />
+          <Property Name="registerDate" Type="datetime" />
+          <Property Name="educationID" Type="smallint" />
+          <Property Name="sex" Type="bit" />
+          <Property Name="homeStateID" Type="tinyint" />
+          <Property Name="homeStateDescription" Type="nvarchar(max)" />
+          <Property Name="phone" Type="varchar" MaxLength="50" />
+          <Property Name="Continus" Type="bit" />
+          <Property Name="goneShrine" Type="bit" />
+          <Property Name="moneySource" Type="nvarchar" MaxLength="500" />
+          <Property Name="benefit" Type="bit" />
+          <Property Name="benfitTypeID" Type="tinyint" />
+        </EntityType>
+        <EntityType Name="Educations">
+          <Key>
+            <PropertyRef Name="educationID" />
+          </Key>
+          <Property Name="educationID" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="educationName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="HealthStates">
           <Key>
@@ -41,6 +66,13 @@
           </Key>
           <Property Name="healthStateID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="healthStateType" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="HomeStates">
+          <Key>
+            <PropertyRef Name="homeStateID" />
+          </Key>
+          <Property Name="homeStateID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="homeStateName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Mosques">
           <Key>
@@ -77,6 +109,7 @@
           <Property Name="name" Type="nvarchar" MaxLength="50" />
           <Property Name="mobile" Type="nvarchar" MaxLength="50" />
           <Property Name="userGroupID" Type="int" />
+          <Property Name="mosqueID" Type="bigint" />
         </EntityType>
         <Association Name="FK_ClientMembers_Clients">
           <End Role="Clients" Type="Self.Clients" Multiplicity="0..1">
@@ -104,6 +137,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Clients_Educations">
+          <End Role="Educations" Type="Self.Educations" Multiplicity="0..1" />
+          <End Role="Clients" Type="Self.Clients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Educations">
+              <PropertyRef Name="educationID" />
+            </Principal>
+            <Dependent Role="Clients">
+              <PropertyRef Name="educationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Clients_HealthStates">
           <End Role="HealthStates" Type="Self.HealthStates" Multiplicity="0..1" />
           <End Role="Clients" Type="Self.Clients" Multiplicity="*" />
@@ -113,6 +158,20 @@
             </Principal>
             <Dependent Role="Clients">
               <PropertyRef Name="healthStateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Clients_HomeStates">
+          <End Role="HomeStates" Type="Self.HomeStates" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Clients" Type="Self.Clients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HomeStates">
+              <PropertyRef Name="homeStateID" />
+            </Principal>
+            <Dependent Role="Clients">
+              <PropertyRef Name="homeStateID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -152,6 +211,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Users_Mosques">
+          <End Role="Mosques" Type="Self.Mosques" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mosques">
+              <PropertyRef Name="mosqueID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="mosqueID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Mosques1">
+          <End Role="Mosques" Type="Self.Mosques" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mosques">
+              <PropertyRef Name="mosqueID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="mosqueID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Users_userGroups">
           <End Role="userGroups" Type="Self.userGroups" Multiplicity="0..1" />
           <End Role="Users" Type="Self.Users" Multiplicity="*" />
@@ -165,9 +248,12 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="AstanModelStoreContainer">
+          <EntitySet Name="BenefitTypes" EntityType="Self.BenefitTypes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ClientMembers" EntityType="Self.ClientMembers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Educations" EntityType="Self.Educations" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="HealthStates" EntityType="Self.HealthStates" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HomeStates" EntityType="Self.HomeStates" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Mosques" EntityType="Self.Mosques" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Piorities" EntityType="Self.Piorities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="userGroups" EntityType="Self.userGroups" Schema="dbo" store:Type="Tables" />
@@ -180,8 +266,16 @@
             <End Role="HealthStates" EntitySet="HealthStates" />
             <End Role="ClientMembers" EntitySet="ClientMembers" />
           </AssociationSet>
+          <AssociationSet Name="FK_Clients_Educations" Association="Self.FK_Clients_Educations">
+            <End Role="Educations" EntitySet="Educations" />
+            <End Role="Clients" EntitySet="Clients" />
+          </AssociationSet>
           <AssociationSet Name="FK_Clients_HealthStates" Association="Self.FK_Clients_HealthStates">
             <End Role="HealthStates" EntitySet="HealthStates" />
+            <End Role="Clients" EntitySet="Clients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Clients_HomeStates" Association="Self.FK_Clients_HomeStates">
+            <End Role="HomeStates" EntitySet="HomeStates" />
             <End Role="Clients" EntitySet="Clients" />
           </AssociationSet>
           <AssociationSet Name="FK_Clients_Mosques" Association="Self.FK_Clients_Mosques">
@@ -195,6 +289,14 @@
           <AssociationSet Name="FK_Clients_Users" Association="Self.FK_Clients_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Clients" EntitySet="Clients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Mosques" Association="Self.FK_Users_Mosques">
+            <End Role="Mosques" EntitySet="Mosques" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Mosques1" Association="Self.FK_Users_Mosques1">
+            <End Role="Mosques" EntitySet="Mosques" />
+            <End Role="Users" EntitySet="Users" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_userGroups" Association="Self.FK_Users_userGroups">
             <End Role="userGroups" EntitySet="userGroups" />
@@ -238,6 +340,7 @@
           <Property Name="phone" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <Property Name="bossMobile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Clients" Relationship="AstanModel.FK_Clients_Mosques" FromRole="Mosque" ToRole="Client" />
+          <NavigationProperty Name="Users" Relationship="AstanModel.FK_Users_Mosques" FromRole="Mosque" ToRole="User" />
         </EntityType>
         <EntityType Name="Piority">
           <Key>
@@ -267,6 +370,8 @@
           <Property Name="userGroupID" Type="Int32" />
           <NavigationProperty Name="userGroup" Relationship="Self.FK_Users_userGroups" FromRole="Users" ToRole="userGroups" />
           <NavigationProperty Name="Clients" Relationship="AstanModel.FK_Clients_Users" FromRole="User" ToRole="Client" />
+          <Property Name="mosqueID" Type="Int64" />
+          <NavigationProperty Name="Mosque" Relationship="AstanModel.FK_Users_Mosques" FromRole="User" ToRole="Mosque" />
         </EntityType>
         <Association Name="FK_ClientMembers_HealthStates">
           <End Role="HealthStates" Type="Self.HealthState" Multiplicity="0..1" />
@@ -328,6 +433,21 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Client" EntitySet="Clients" />
           </AssociationSet>
+          <EntitySet Name="BenefitTypes" EntityType="AstanModel.BenefitType" />
+          <EntitySet Name="HomeStates" EntityType="AstanModel.HomeState" />
+          <AssociationSet Name="FK_Clients_HomeStates" Association="AstanModel.FK_Clients_HomeStates">
+            <End Role="HomeState" EntitySet="HomeStates" />
+            <End Role="Client" EntitySet="Clients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Mosques" Association="AstanModel.FK_Users_Mosques">
+            <End Role="Mosque" EntitySet="Mosques" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <EntitySet Name="Educations" EntityType="AstanModel.Education" />
+          <AssociationSet Name="FK_Clients_Educations" Association="AstanModel.FK_Clients_Educations">
+            <End Role="Education" EntitySet="Educations" />
+            <End Role="Client" EntitySet="Clients" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Client">
           <Key>
@@ -352,6 +472,19 @@
           <NavigationProperty Name="Mosque" Relationship="AstanModel.FK_Clients_Mosques" FromRole="Client" ToRole="Mosque" />
           <NavigationProperty Name="Piority" Relationship="AstanModel.FK_Clients_Piorities" FromRole="Client" ToRole="Piority" />
           <NavigationProperty Name="User" Relationship="AstanModel.FK_Clients_Users" FromRole="Client" ToRole="User" />
+          <Property Name="registerDate" Type="DateTime" Precision="3" />
+          <Property Name="educationID" Type="Int16" />
+          <Property Name="sex" Type="Boolean" />
+          <Property Name="homeStateID" Type="Byte" />
+          <Property Name="homeStateDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Continus" Type="Boolean" />
+          <Property Name="goneShrine" Type="Boolean" />
+          <Property Name="moneySource" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="HomeState" Relationship="AstanModel.FK_Clients_HomeStates" FromRole="Client" ToRole="HomeState" />
+          <Property Name="benefit" Type="Boolean" />
+          <Property Name="benfitTypeID" Type="Byte" />
+          <NavigationProperty Name="Education" Relationship="AstanModel.FK_Clients_Educations" FromRole="Client" ToRole="Education" />
         </EntityType>
         <Association Name="FK_ClientMembers_Clients">
           <End Type="AstanModel.Client" Role="Client" Multiplicity="0..1">
@@ -415,6 +548,67 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="BenefitType">
+          <Key>
+            <PropertyRef Name="benefitTypeID" />
+          </Key>
+          <Property Name="benefitTypeID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="benefitTypeName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="HomeState">
+          <Key>
+            <PropertyRef Name="homeStateID" />
+          </Key>
+          <Property Name="homeStateID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="homeStateName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Clients" Relationship="AstanModel.FK_Clients_HomeStates" FromRole="HomeState" ToRole="Client" />
+        </EntityType>
+        <Association Name="FK_Clients_HomeStates">
+          <End Type="AstanModel.HomeState" Role="HomeState" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AstanModel.Client" Role="Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HomeState">
+              <PropertyRef Name="homeStateID" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="homeStateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Mosques">
+          <End Type="AstanModel.Mosque" Role="Mosque" Multiplicity="0..1" />
+          <End Type="AstanModel.User" Role="User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mosque">
+              <PropertyRef Name="mosqueID" />
+            </Principal>
+            <Dependent Role="User">
+              <PropertyRef Name="mosqueID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Education">
+          <Key>
+            <PropertyRef Name="educationID" />
+          </Key>
+          <Property Name="educationID" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="educationName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Clients" Relationship="AstanModel.FK_Clients_Educations" FromRole="Education" ToRole="Client" />
+        </EntityType>
+        <Association Name="FK_Clients_Educations">
+          <End Type="AstanModel.Education" Role="Education" Multiplicity="0..1" />
+          <End Type="AstanModel.Client" Role="Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Education">
+              <PropertyRef Name="educationID" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="educationID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -472,6 +666,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="AstanModel.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="mosqueID" ColumnName="mosqueID" />
                 <ScalarProperty Name="userID" ColumnName="userID" />
                 <ScalarProperty Name="username" ColumnName="username" />
                 <ScalarProperty Name="password" ColumnName="password" />
@@ -484,6 +679,17 @@
           <EntitySetMapping Name="Clients">
             <EntityTypeMapping TypeName="AstanModel.Client">
               <MappingFragment StoreEntitySet="Clients">
+                <ScalarProperty Name="benfitTypeID" ColumnName="benfitTypeID" />
+                <ScalarProperty Name="benefit" ColumnName="benefit" />
+                <ScalarProperty Name="moneySource" ColumnName="moneySource" />
+                <ScalarProperty Name="goneShrine" ColumnName="goneShrine" />
+                <ScalarProperty Name="Continus" ColumnName="Continus" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="homeStateDescription" ColumnName="homeStateDescription" />
+                <ScalarProperty Name="homeStateID" ColumnName="homeStateID" />
+                <ScalarProperty Name="sex" ColumnName="sex" />
+                <ScalarProperty Name="educationID" ColumnName="educationID" />
+                <ScalarProperty Name="registerDate" ColumnName="registerDate" />
                 <ScalarProperty Name="userID" ColumnName="userID" />
                 <ScalarProperty Name="maried" ColumnName="maried" />
                 <ScalarProperty Name="need" ColumnName="need" />
@@ -498,6 +704,30 @@
                 <ScalarProperty Name="fatherName" ColumnName="fatherName" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="clientID" ColumnName="clientID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BenefitTypes">
+            <EntityTypeMapping TypeName="AstanModel.BenefitType">
+              <MappingFragment StoreEntitySet="BenefitTypes">
+                <ScalarProperty Name="benefitTypeName" ColumnName="benefitTypeName" />
+                <ScalarProperty Name="benefitTypeID" ColumnName="benefitTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HomeStates">
+            <EntityTypeMapping TypeName="AstanModel.HomeState">
+              <MappingFragment StoreEntitySet="HomeStates">
+                <ScalarProperty Name="homeStateName" ColumnName="homeStateName" />
+                <ScalarProperty Name="homeStateID" ColumnName="homeStateID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Educations">
+            <EntityTypeMapping TypeName="AstanModel.Education">
+              <MappingFragment StoreEntitySet="Educations">
+                <ScalarProperty Name="educationName" ColumnName="educationName" />
+                <ScalarProperty Name="educationID" ColumnName="educationID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

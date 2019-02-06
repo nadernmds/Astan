@@ -7,36 +7,21 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using Astan.Models;
-using pep;
+
 namespace Astan.Controllers
 {
-
-    [RequsetLogin]
-    public class ClientController : Controller
+    public class MController : Controller
     {
         private AstanEntities db = new AstanEntities();
-        User user = new User();
-        public ClientController()
-        {
-            if (System.Web.HttpContext.Current.Session["RPG"] != null)
-            {
-                user = System.Web.HttpContext.Current.Session["RPG"] as User;
-            }
-        }
-        // GET: Client
+
+        // GET: M
         public ActionResult Index()
         {
-            var clients = db.Clients.Include(c => c.HealthState).Include(c => c.Mosque).Include(c => c.Piority).Include(c => c.User);
-            return View(clients.DecodeClients().ToList());
-        }
-        [HttpPost]
-        public ActionResult index(string obj)
-        {
-            var s = db.Clients.Where(c => c.mobile == obj || c.nationalCode == obj).FirstOrDefault();
-            return View("res",s);
+            var clients = db.Clients.Include(c => c.HealthState).Include(c => c.Mosque).Include(c => c.Piority).Include(c => c.User).Include(c => c.HomeState);
+            return View(clients.ToList());
         }
 
-        // GET: Client/Details/5
+        // GET: M/Details/5
         public ActionResult Details(long? id)
         {
             if (id == null)
@@ -48,30 +33,30 @@ namespace Astan.Controllers
             {
                 return HttpNotFound();
             }
-            return View(client.DecodeClient());
+            return View(client);
         }
 
-        // GET: Client/Create
+        // GET: M/Create
         public ActionResult Create()
         {
             ViewBag.healthStateID = new SelectList(db.HealthStates, "healthStateID", "healthStateType");
             ViewBag.mosqueID = new SelectList(db.Mosques, "mosqueID", "mosqueName");
             ViewBag.pirorityID = new SelectList(db.Piorities, "pirorityID", "priortyType");
             ViewBag.userID = new SelectList(db.Users, "userID", "username");
+            ViewBag.homeStateID = new SelectList(db.HomeStates, "homeStateID", "homeStateName");
             return View();
         }
 
-        // POST: Client/Create
+        // POST: M/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "clientID,name,fatherName,nationalCode,jobtitle,homeAdress,healthStateID,mobile,mosqueID,pirorityID,need,maried,userID")] Client client, string birthDay)
+        public ActionResult Create([Bind(Include = "clientID,name,fatherName,nationalCode,jobtitle,birthDay,homeAdress,healthStateID,mobile,mosqueID,pirorityID,need,maried,userID,registerDate,educationID,sex,homeStateID,homeStateDescription,phone,Continus,goneShrine,moneySource")] Client client)
         {
             if (ModelState.IsValid)
             {
-                client.birthDay = birthDay.toMiladiDate();
-                db.Clients.Add(client.EncodeClient());
+                db.Clients.Add(client);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -80,10 +65,11 @@ namespace Astan.Controllers
             ViewBag.mosqueID = new SelectList(db.Mosques, "mosqueID", "mosqueName", client.mosqueID);
             ViewBag.pirorityID = new SelectList(db.Piorities, "pirorityID", "priortyType", client.pirorityID);
             ViewBag.userID = new SelectList(db.Users, "userID", "username", client.userID);
+            ViewBag.homeStateID = new SelectList(db.HomeStates, "homeStateID", "homeStateName", client.homeStateID);
             return View(client);
         }
 
-        // GET: Client/Edit/5
+        // GET: M/Edit/5
         public ActionResult Edit(long? id)
         {
             if (id == null)
@@ -99,21 +85,20 @@ namespace Astan.Controllers
             ViewBag.mosqueID = new SelectList(db.Mosques, "mosqueID", "mosqueName", client.mosqueID);
             ViewBag.pirorityID = new SelectList(db.Piorities, "pirorityID", "priortyType", client.pirorityID);
             ViewBag.userID = new SelectList(db.Users, "userID", "username", client.userID);
-            return View(client.DecodeClient());
+            ViewBag.homeStateID = new SelectList(db.HomeStates, "homeStateID", "homeStateName", client.homeStateID);
+            return View(client);
         }
 
-        // POST: Client/Edit/5
+        // POST: M/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "clientID,name,fatherName,nationalCode,jobtitle,homeAdress,healthStateID,mobile,mosqueID,pirorityID,need,maried,userID")] Client client, string birthDay)
+        public ActionResult Edit([Bind(Include = "clientID,name,fatherName,nationalCode,jobtitle,birthDay,homeAdress,healthStateID,mobile,mosqueID,pirorityID,need,maried,userID,registerDate,educationID,sex,homeStateID,homeStateDescription,phone,Continus,goneShrine,moneySource")] Client client)
         {
             if (ModelState.IsValid)
             {
-                client.birthDay = birthDay.toMiladiDate();
-                client.userID = user.userID;
-                db.Entry(client.EncodeClient()).State = EntityState.Modified;
+                db.Entry(client).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -121,10 +106,11 @@ namespace Astan.Controllers
             ViewBag.mosqueID = new SelectList(db.Mosques, "mosqueID", "mosqueName", client.mosqueID);
             ViewBag.pirorityID = new SelectList(db.Piorities, "pirorityID", "priortyType", client.pirorityID);
             ViewBag.userID = new SelectList(db.Users, "userID", "username", client.userID);
-            return View(client.EncodeClient());
+            ViewBag.homeStateID = new SelectList(db.HomeStates, "homeStateID", "homeStateName", client.homeStateID);
+            return View(client);
         }
 
-        // GET: Client/Delete/5
+        // GET: M/Delete/5
         public ActionResult Delete(long? id)
         {
             if (id == null)
@@ -136,10 +122,10 @@ namespace Astan.Controllers
             {
                 return HttpNotFound();
             }
-            return View(client.DecodeClient());
+            return View(client);
         }
 
-        // POST: Client/Delete/5
+        // POST: M/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(long id)

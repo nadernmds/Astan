@@ -38,7 +38,8 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Client.name)
+            @Model.Client.name.DecodeItem()
+            @*@Html.DisplayFor(model =>)*@
         </dd>
 
         <dt>
@@ -51,7 +52,8 @@
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
