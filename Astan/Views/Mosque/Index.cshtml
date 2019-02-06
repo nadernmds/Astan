@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Astan.Models.Mosque>
+
+@{
+    ViewBag.Title = "";
+}
+
+
+<p>
+    @Html.ActionLink("جدید", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.mosqueName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.adress)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.bossName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.phone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.bossMobile)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.mosqueName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.adress)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.bossName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.phone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.bossMobile)
+        </td>
+        <td>
+            @Html.ActionLink("ویرایش", "Edit", new { id=item.mosqueID }) |
+            @Html.ActionLink("مشاهده", "Details", new { id=item.mosqueID }) |
+            @Html.ActionLink("حذف", "Delete", new { id=item.mosqueID })
+        </td>
+    </tr>
+}
+
+</table>

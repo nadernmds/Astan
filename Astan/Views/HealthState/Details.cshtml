@@ -1,0 +1,26 @@
+﻿@model Astan.Models.HealthState
+
+@{
+    ViewBag.Title = "مشاهده";
+}
+
+<h2>مشاهده</h2>
+
+<div>
+    
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.healthStateType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.healthStateType)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("ویرایش", "Edit", new { id = Model.healthStateID }) |
+    @Html.ActionLink("بازگشت", "Index")
+</p>

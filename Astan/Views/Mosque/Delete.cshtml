@@ -1,0 +1,62 @@
+﻿@model Astan.Models.Mosque
+
+@{
+    ViewBag.Title = "حذف";
+}
+
+
+<h3>آیا مایل به حذف هستید؟</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.mosqueName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mosqueName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.adress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.adress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.bossName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.bossName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.phone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.phone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.bossMobile)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.bossMobile)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="حذف" class="btn btn-default" /> |
+            @Html.ActionLink("بازگشت", "Index")
+        </div>
+    }
+</div>

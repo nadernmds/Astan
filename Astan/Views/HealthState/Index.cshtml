@@ -1,0 +1,32 @@
+﻿@model IEnumerable<Astan.Models.HealthState>
+
+@{
+    ViewBag.Title = "";
+}
+
+
+<p>
+    @Html.ActionLink("جدید", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.healthStateType)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.healthStateType)
+        </td>
+        <td>
+            @Html.ActionLink("ویرایش", "Edit", new { id=item.healthStateID }) |
+            @Html.ActionLink("مشاهده", "Details", new { id=item.healthStateID }) |
+            @Html.ActionLink("حذف", "Delete", new { id=item.healthStateID })
+        </td>
+    </tr>
+}
+
+</table>

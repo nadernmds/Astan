@@ -1,0 +1,58 @@
+﻿@model Astan.Models.Mosque
+
+@{
+    ViewBag.Title = "مشاهده";
+}
+
+<h2>مشاهده</h2>
+
+<div>
+    
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.mosqueName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mosqueName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.adress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.adress)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.bossName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.bossName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.phone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.phone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.bossMobile)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.bossMobile)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("ویرایش", "Edit", new { id = Model.mosqueID }) |
+    @Html.ActionLink("بازگشت", "Index")
+</p>

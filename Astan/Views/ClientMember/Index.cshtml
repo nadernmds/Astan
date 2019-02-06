@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Astan.Models.ClientMember>
+
+@{
+    ViewBag.Title = "";
+}
+
+
+<p>
+    @Html.ActionLink("جدید", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.age)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.need)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Client.name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.HealthState.healthStateType)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.age)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.need)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Client.name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.HealthState.healthStateType)
+        </td>
+        <td>
+            @Html.ActionLink("ویرایش", "Edit", new { id=item.clientMemberID }) |
+            @Html.ActionLink("مشاهده", "Details", new { id=item.clientMemberID }) |
+            @Html.ActionLink("حذف", "Delete", new { id=item.clientMemberID })
+        </td>
+    </tr>
+}
+
+</table>

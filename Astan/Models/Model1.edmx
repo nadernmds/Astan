@@ -1,0 +1,527 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AstanModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ClientMembers">
+          <Key>
+            <PropertyRef Name="clientMemberID" />
+          </Key>
+          <Property Name="clientMemberID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="clientID" Type="bigint" />
+          <Property Name="name" Type="nvarchar" MaxLength="150" />
+          <Property Name="age" Type="tinyint" />
+          <Property Name="healthStateID" Type="tinyint" />
+          <Property Name="need" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Clients">
+          <Key>
+            <PropertyRef Name="clientID" />
+          </Key>
+          <Property Name="clientID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar(max)" />
+          <Property Name="fatherName" Type="nvarchar(max)" />
+          <Property Name="nationalCode" Type="nvarchar(max)" />
+          <Property Name="jobtitle" Type="nvarchar(max)" />
+          <Property Name="birthDay" Type="datetime" />
+          <Property Name="homeAdress" Type="nvarchar(max)" />
+          <Property Name="healthStateID" Type="tinyint" />
+          <Property Name="mobile" Type="nvarchar(max)" />
+          <Property Name="mosqueID" Type="bigint" />
+          <Property Name="pirorityID" Type="tinyint" />
+          <Property Name="need" Type="nvarchar(max)" />
+          <Property Name="maried" Type="bit" />
+          <Property Name="userID" Type="bigint" />
+        </EntityType>
+        <EntityType Name="HealthStates">
+          <Key>
+            <PropertyRef Name="healthStateID" />
+          </Key>
+          <Property Name="healthStateID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="healthStateType" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Mosques">
+          <Key>
+            <PropertyRef Name="mosqueID" />
+          </Key>
+          <Property Name="mosqueID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="mosqueName" Type="nvarchar" MaxLength="50" />
+          <Property Name="adress" Type="nvarchar" MaxLength="1500" />
+          <Property Name="bossName" Type="nvarchar" MaxLength="50" />
+          <Property Name="phone" Type="varchar" MaxLength="150" />
+          <Property Name="bossMobile" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Piorities">
+          <Key>
+            <PropertyRef Name="pirorityID" />
+          </Key>
+          <Property Name="pirorityID" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="priortyType" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="userGroups">
+          <Key>
+            <PropertyRef Name="userGroupID" />
+          </Key>
+          <Property Name="userGroupID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userGroupName" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="username" Type="nvarchar" MaxLength="50" />
+          <Property Name="password" Type="nvarchar" MaxLength="50" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" />
+          <Property Name="mobile" Type="nvarchar" MaxLength="50" />
+          <Property Name="userGroupID" Type="int" />
+        </EntityType>
+        <Association Name="FK_ClientMembers_Clients">
+          <End Role="Clients" Type="Self.Clients" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ClientMembers" Type="Self.ClientMembers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clients">
+              <PropertyRef Name="clientID" />
+            </Principal>
+            <Dependent Role="ClientMembers">
+              <PropertyRef Name="clientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ClientMembers_HealthStates">
+          <End Role="HealthStates" Type="Self.HealthStates" Multiplicity="0..1" />
+          <End Role="ClientMembers" Type="Self.ClientMembers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HealthStates">
+              <PropertyRef Name="healthStateID" />
+            </Principal>
+            <Dependent Role="ClientMembers">
+              <PropertyRef Name="healthStateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Clients_HealthStates">
+          <End Role="HealthStates" Type="Self.HealthStates" Multiplicity="0..1" />
+          <End Role="Clients" Type="Self.Clients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HealthStates">
+              <PropertyRef Name="healthStateID" />
+            </Principal>
+            <Dependent Role="Clients">
+              <PropertyRef Name="healthStateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Clients_Mosques">
+          <End Role="Mosques" Type="Self.Mosques" Multiplicity="0..1" />
+          <End Role="Clients" Type="Self.Clients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mosques">
+              <PropertyRef Name="mosqueID" />
+            </Principal>
+            <Dependent Role="Clients">
+              <PropertyRef Name="mosqueID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Clients_Piorities">
+          <End Role="Piorities" Type="Self.Piorities" Multiplicity="0..1" />
+          <End Role="Clients" Type="Self.Clients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Piorities">
+              <PropertyRef Name="pirorityID" />
+            </Principal>
+            <Dependent Role="Clients">
+              <PropertyRef Name="pirorityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Clients_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Clients" Type="Self.Clients" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="Clients">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_userGroups">
+          <End Role="userGroups" Type="Self.userGroups" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userGroups">
+              <PropertyRef Name="userGroupID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="userGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AstanModelStoreContainer">
+          <EntitySet Name="ClientMembers" EntityType="Self.ClientMembers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Clients" EntityType="Self.Clients" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="HealthStates" EntityType="Self.HealthStates" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Mosques" EntityType="Self.Mosques" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Piorities" EntityType="Self.Piorities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="userGroups" EntityType="Self.userGroups" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ClientMembers_Clients" Association="Self.FK_ClientMembers_Clients">
+            <End Role="Clients" EntitySet="Clients" />
+            <End Role="ClientMembers" EntitySet="ClientMembers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ClientMembers_HealthStates" Association="Self.FK_ClientMembers_HealthStates">
+            <End Role="HealthStates" EntitySet="HealthStates" />
+            <End Role="ClientMembers" EntitySet="ClientMembers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Clients_HealthStates" Association="Self.FK_Clients_HealthStates">
+            <End Role="HealthStates" EntitySet="HealthStates" />
+            <End Role="Clients" EntitySet="Clients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Clients_Mosques" Association="Self.FK_Clients_Mosques">
+            <End Role="Mosques" EntitySet="Mosques" />
+            <End Role="Clients" EntitySet="Clients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Clients_Piorities" Association="Self.FK_Clients_Piorities">
+            <End Role="Piorities" EntitySet="Piorities" />
+            <End Role="Clients" EntitySet="Clients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Clients_Users" Association="Self.FK_Clients_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Clients" EntitySet="Clients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_userGroups" Association="Self.FK_Users_userGroups">
+            <End Role="userGroups" EntitySet="userGroups" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AstanModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ClientMember">
+          <Key>
+            <PropertyRef Name="clientMemberID" />
+          </Key>
+          <Property Name="clientMemberID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="clientID" Type="Int64" />
+          <Property Name="name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="age" Type="Byte" />
+          <Property Name="healthStateID" Type="Byte" />
+          <Property Name="need" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="HealthState" Relationship="Self.FK_ClientMembers_HealthStates" FromRole="ClientMembers" ToRole="HealthStates" />
+          <NavigationProperty Name="Client" Relationship="AstanModel.FK_ClientMembers_Clients" FromRole="ClientMember" ToRole="Client" />
+        </EntityType>
+        <EntityType Name="HealthState">
+          <Key>
+            <PropertyRef Name="healthStateID" />
+          </Key>
+          <Property Name="healthStateID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="healthStateType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ClientMembers" Relationship="Self.FK_ClientMembers_HealthStates" FromRole="HealthStates" ToRole="ClientMembers" />
+          <NavigationProperty Name="Clients" Relationship="AstanModel.FK_Clients_HealthStates" FromRole="HealthState" ToRole="Client" />
+        </EntityType>
+        <EntityType Name="Mosque">
+          <Key>
+            <PropertyRef Name="mosqueID" />
+          </Key>
+          <Property Name="mosqueID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="mosqueName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="adress" Type="String" MaxLength="1500" FixedLength="false" Unicode="true" />
+          <Property Name="bossName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="phone" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="bossMobile" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Clients" Relationship="AstanModel.FK_Clients_Mosques" FromRole="Mosque" ToRole="Client" />
+        </EntityType>
+        <EntityType Name="Piority">
+          <Key>
+            <PropertyRef Name="pirorityID" />
+          </Key>
+          <Property Name="pirorityID" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="priortyType" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Clients" Relationship="AstanModel.FK_Clients_Piorities" FromRole="Piority" ToRole="Client" />
+        </EntityType>
+        <EntityType Name="userGroup">
+          <Key>
+            <PropertyRef Name="userGroupID" />
+          </Key>
+          <Property Name="userGroupID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userGroupName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="Self.FK_Users_userGroups" FromRole="userGroups" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="userID" />
+          </Key>
+          <Property Name="userID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="mobile" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="userGroupID" Type="Int32" />
+          <NavigationProperty Name="userGroup" Relationship="Self.FK_Users_userGroups" FromRole="Users" ToRole="userGroups" />
+          <NavigationProperty Name="Clients" Relationship="AstanModel.FK_Clients_Users" FromRole="User" ToRole="Client" />
+        </EntityType>
+        <Association Name="FK_ClientMembers_HealthStates">
+          <End Role="HealthStates" Type="Self.HealthState" Multiplicity="0..1" />
+          <End Role="ClientMembers" Type="Self.ClientMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HealthStates">
+              <PropertyRef Name="healthStateID" />
+            </Principal>
+            <Dependent Role="ClientMembers">
+              <PropertyRef Name="healthStateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_userGroups">
+          <End Role="userGroups" Type="Self.userGroup" Multiplicity="0..1" />
+          <End Role="Users" Type="Self.User" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userGroups">
+              <PropertyRef Name="userGroupID" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="userGroupID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AstanEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ClientMembers" EntityType="Self.ClientMember" />
+          <EntitySet Name="HealthStates" EntityType="Self.HealthState" />
+          <EntitySet Name="Mosques" EntityType="Self.Mosque" />
+          <EntitySet Name="Piorities" EntityType="Self.Piority" />
+          <EntitySet Name="userGroups" EntityType="Self.userGroup" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <AssociationSet Name="FK_ClientMembers_HealthStates" Association="Self.FK_ClientMembers_HealthStates">
+            <End Role="HealthStates" EntitySet="HealthStates" />
+            <End Role="ClientMembers" EntitySet="ClientMembers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_userGroups" Association="Self.FK_Users_userGroups">
+            <End Role="userGroups" EntitySet="userGroups" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+          <EntitySet Name="Clients" EntityType="AstanModel.Client" />
+          <AssociationSet Name="FK_ClientMembers_Clients" Association="AstanModel.FK_ClientMembers_Clients">
+            <End Role="Client" EntitySet="Clients" />
+            <End Role="ClientMember" EntitySet="ClientMembers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Clients_HealthStates" Association="AstanModel.FK_Clients_HealthStates">
+            <End Role="HealthState" EntitySet="HealthStates" />
+            <End Role="Client" EntitySet="Clients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Clients_Mosques" Association="AstanModel.FK_Clients_Mosques">
+            <End Role="Mosque" EntitySet="Mosques" />
+            <End Role="Client" EntitySet="Clients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Clients_Piorities" Association="AstanModel.FK_Clients_Piorities">
+            <End Role="Piority" EntitySet="Piorities" />
+            <End Role="Client" EntitySet="Clients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Clients_Users" Association="AstanModel.FK_Clients_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Client" EntitySet="Clients" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Client">
+          <Key>
+            <PropertyRef Name="clientID" />
+          </Key>
+          <Property Name="clientID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="fatherName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="nationalCode" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="jobtitle" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="birthDay" Type="DateTime" Precision="3" />
+          <Property Name="homeAdress" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="healthStateID" Type="Byte" />
+          <Property Name="mobile" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="mosqueID" Type="Int64" />
+          <Property Name="pirorityID" Type="Byte" />
+          <Property Name="need" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="maried" Type="Boolean" />
+          <Property Name="userID" Type="Int64" />
+          <NavigationProperty Name="ClientMembers" Relationship="AstanModel.FK_ClientMembers_Clients" FromRole="Client" ToRole="ClientMember" />
+          <NavigationProperty Name="HealthState" Relationship="AstanModel.FK_Clients_HealthStates" FromRole="Client" ToRole="HealthState" />
+          <NavigationProperty Name="Mosque" Relationship="AstanModel.FK_Clients_Mosques" FromRole="Client" ToRole="Mosque" />
+          <NavigationProperty Name="Piority" Relationship="AstanModel.FK_Clients_Piorities" FromRole="Client" ToRole="Piority" />
+          <NavigationProperty Name="User" Relationship="AstanModel.FK_Clients_Users" FromRole="Client" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_ClientMembers_Clients">
+          <End Type="AstanModel.Client" Role="Client" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="AstanModel.ClientMember" Role="ClientMember" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Client">
+              <PropertyRef Name="clientID" />
+            </Principal>
+            <Dependent Role="ClientMember">
+              <PropertyRef Name="clientID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Clients_HealthStates">
+          <End Type="AstanModel.HealthState" Role="HealthState" Multiplicity="0..1" />
+          <End Type="AstanModel.Client" Role="Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="HealthState">
+              <PropertyRef Name="healthStateID" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="healthStateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Clients_Mosques">
+          <End Type="AstanModel.Mosque" Role="Mosque" Multiplicity="0..1" />
+          <End Type="AstanModel.Client" Role="Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Mosque">
+              <PropertyRef Name="mosqueID" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="mosqueID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Clients_Piorities">
+          <End Type="AstanModel.Piority" Role="Piority" Multiplicity="0..1" />
+          <End Type="AstanModel.Client" Role="Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Piority">
+              <PropertyRef Name="pirorityID" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="pirorityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Clients_Users">
+          <End Type="AstanModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="AstanModel.Client" Role="Client" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="Client">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AstanModelStoreContainer" CdmEntityContainer="AstanEntities">
+          <EntitySetMapping Name="ClientMembers">
+            <EntityTypeMapping TypeName="AstanModel.ClientMember">
+              <MappingFragment StoreEntitySet="ClientMembers">
+                <ScalarProperty Name="clientMemberID" ColumnName="clientMemberID" />
+                <ScalarProperty Name="clientID" ColumnName="clientID" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="age" ColumnName="age" />
+                <ScalarProperty Name="healthStateID" ColumnName="healthStateID" />
+                <ScalarProperty Name="need" ColumnName="need" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="HealthStates">
+            <EntityTypeMapping TypeName="AstanModel.HealthState">
+              <MappingFragment StoreEntitySet="HealthStates">
+                <ScalarProperty Name="healthStateID" ColumnName="healthStateID" />
+                <ScalarProperty Name="healthStateType" ColumnName="healthStateType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Mosques">
+            <EntityTypeMapping TypeName="AstanModel.Mosque">
+              <MappingFragment StoreEntitySet="Mosques">
+                <ScalarProperty Name="mosqueID" ColumnName="mosqueID" />
+                <ScalarProperty Name="mosqueName" ColumnName="mosqueName" />
+                <ScalarProperty Name="adress" ColumnName="adress" />
+                <ScalarProperty Name="bossName" ColumnName="bossName" />
+                <ScalarProperty Name="phone" ColumnName="phone" />
+                <ScalarProperty Name="bossMobile" ColumnName="bossMobile" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Piorities">
+            <EntityTypeMapping TypeName="AstanModel.Piority">
+              <MappingFragment StoreEntitySet="Piorities">
+                <ScalarProperty Name="pirorityID" ColumnName="pirorityID" />
+                <ScalarProperty Name="priortyType" ColumnName="priortyType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="userGroups">
+            <EntityTypeMapping TypeName="AstanModel.userGroup">
+              <MappingFragment StoreEntitySet="userGroups">
+                <ScalarProperty Name="userGroupID" ColumnName="userGroupID" />
+                <ScalarProperty Name="userGroupName" ColumnName="userGroupName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="AstanModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="username" ColumnName="username" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="mobile" ColumnName="mobile" />
+                <ScalarProperty Name="userGroupID" ColumnName="userGroupID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clients">
+            <EntityTypeMapping TypeName="AstanModel.Client">
+              <MappingFragment StoreEntitySet="Clients">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="maried" ColumnName="maried" />
+                <ScalarProperty Name="need" ColumnName="need" />
+                <ScalarProperty Name="pirorityID" ColumnName="pirorityID" />
+                <ScalarProperty Name="mosqueID" ColumnName="mosqueID" />
+                <ScalarProperty Name="mobile" ColumnName="mobile" />
+                <ScalarProperty Name="healthStateID" ColumnName="healthStateID" />
+                <ScalarProperty Name="homeAdress" ColumnName="homeAdress" />
+                <ScalarProperty Name="birthDay" ColumnName="birthDay" />
+                <ScalarProperty Name="jobtitle" ColumnName="jobtitle" />
+                <ScalarProperty Name="nationalCode" ColumnName="nationalCode" />
+                <ScalarProperty Name="fatherName" ColumnName="fatherName" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="clientID" ColumnName="clientID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

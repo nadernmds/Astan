@@ -1,0 +1,62 @@
+﻿@model Astan.Models.ClientMember
+
+@{
+    ViewBag.Title = "حذف";
+}
+
+
+<h3>آیا مایل به حذف هستید؟</h3>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.age)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.age)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.need)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.need)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Client.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Client.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.HealthState.healthStateType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.HealthState.healthStateType)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="حذف" class="btn btn-default" /> |
+            @Html.ActionLink("بازگشت", "Index")
+        </div>
+    }
+</div>
