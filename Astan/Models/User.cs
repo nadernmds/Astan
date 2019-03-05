@@ -18,6 +18,7 @@ namespace Astan.Models
         public User()
         {
             this.Clients = new HashSet<Client>();
+            this.Faqs = new HashSet<Faq>();
         }
     
         public long userID { get; set; }
@@ -32,5 +33,7 @@ namespace Astan.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Client> Clients { get; set; }
         public virtual Mosque Mosque { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Faq> Faqs { get; set; }
     }
 }

@@ -23,8 +23,10 @@
         <EntityTypeShape EntityType="AstanModel.HomeState" Width="1.5" PointX="0.75" PointY="0.875" />
         <AssociationConnector Association="AstanModel.FK_Clients_HomeStates" />
         <AssociationConnector Association="AstanModel.FK_Users_Mosques" />
-        <EntityTypeShape EntityType="AstanModel.Education" Width="1.5" PointX="8.375" PointY="3.875" />
+        <EntityTypeShape EntityType="AstanModel.Education" Width="1.5" PointX="10.125" PointY="2.75" />
         <AssociationConnector Association="AstanModel.FK_Clients_Educations" />
+        <EntityTypeShape EntityType="AstanModel.Faq" Width="1.5" PointX="6" PointY="12.875" />
+        <AssociationConnector Association="AstanModel.FK_Faqs_Users" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

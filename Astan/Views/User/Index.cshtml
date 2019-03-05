@@ -1,13 +1,25 @@
-﻿@model IEnumerable<Astan.Models.User>
+﻿@using Astan.Models;
+@model IEnumerable<Astan.Models.User>
 
 @{
     ViewBag.Title = "";
 }
+@{
+    var db = new AstanEntities();
+    var user = new User();
+    if (Session["RPG"] != null)
+    {
+        user = Session["RPG"] as User;
+    }
 
+}
+@if (user.isAdmin())
+{
 
-<p>
-    @Html.ActionLink("جدید", "Create")
-</p>
+    <p>
+        @Html.ActionLink("جدید", "Create")
+    </p>
+}
 <div class="table-responsive">
 
     <table class="table">
@@ -15,7 +27,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.username)
             </th>
-
             <th>
                 @Html.DisplayNameFor(model => model.name)
             </th>
@@ -24,14 +35,15 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.userGroup.userGroupName)
-            </th>        
+            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Mosque.mosqueName)
             </th>
             <th></th>
         </tr>
 
-        @foreach (var item in Model) {
+        @foreach (var item in Model)
+        {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.username)
@@ -45,17 +57,20 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.userGroup.userGroupName)
-                </td>        
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Mosque.mosqueName)
                 </td>
                 <td>
-                    @Html.ActionLink("ویرایش", "Edit", new { id=item.userID }) |
-                    @Html.ActionLink("مشاهده", "Details", new { id=item.userID }) |
-                    @Html.ActionLink("حذف", "Delete", new { id=item.userID })
+                    @if (user.isAdmin())
+                    {
+                        @Html.ActionLink("ویرایش", "Edit", new { id = item.userID }) @Html.Raw('|')
+                        @Html.ActionLink("مشاهده", "Details", new { id = item.userID }) @Html.Raw('|')
+                        @Html.ActionLink("حذف", "Delete", new { id = item.userID })
+                    }
                 </td>
             </tr>
-}
+        }
 
     </table>
 </div>

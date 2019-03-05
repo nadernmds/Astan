@@ -140,9 +140,10 @@
     <Compile Include="Common\RequsetLogin.cs" />
     <Compile Include="Controllers\ClientController.cs" />
     <Compile Include="Controllers\ClientMemberController.cs" />
+    <Compile Include="Controllers\Faq55Controller.cs" />
+    <Compile Include="Controllers\FaqController.cs" />
     <Compile Include="Controllers\HealthStateController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\MController.cs" />
     <Compile Include="Controllers\MosqueController.cs" />
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -162,6 +163,10 @@
     <Compile Include="Models\Education.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Faq.cs">
+      <DependentUpon>Model1.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\FullReport.cs" />
     <Compile Include="Models\HealthState.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -244,7 +249,7 @@
     <Content Include="Models\Model1.edmx.diagram">
       <DependentUpon>Model1.edmx</DependentUpon>
     </Content>
-    <None Include="Properties\PublishProfiles\pep.pubxml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\JavaScript.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -322,11 +327,11 @@
     <Content Include="Views\Report\Index.cshtml" />
     <Content Include="Views\Report\ProjectAndCompany.cshtml" />
     <Content Include="Views\Client\res.cshtml" />
-    <Content Include="Views\M\Create.cshtml" />
-    <Content Include="Views\M\Delete.cshtml" />
-    <Content Include="Views\M\Details.cshtml" />
-    <Content Include="Views\M\Edit.cshtml" />
-    <Content Include="Views\M\Index.cshtml" />
+    <Content Include="Views\Faq\Create.cshtml" />
+    <Content Include="Views\Faq\Delete.cshtml" />
+    <Content Include="Views\Faq\Details.cshtml" />
+    <Content Include="Views\Faq\Edit.cshtml" />
+    <Content Include="Views\Faq\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

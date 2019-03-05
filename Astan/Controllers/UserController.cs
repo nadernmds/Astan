@@ -15,6 +15,14 @@ namespace Astan.Controllers
     public class UserController : Controller
     {
         private AstanEntities db = new AstanEntities();
+        User user = new User();
+        public UserController()
+        {
+            if (System.Web.HttpContext.Current.Session["RPG"] != null)
+            {
+                user = System.Web.HttpContext.Current.Session["RPG"] as User;
+            }
+        }
         [AllowAnonymous]
         public ActionResult Login() { return View(); }
         [AllowAnonymous]
@@ -47,7 +55,12 @@ namespace Astan.Controllers
         public ActionResult Index()
         {
             var users = db.Users.Include(u => u.userGroup);
-            return View(users.ToList());
+            if (user.isAdmin())
+            {
+                return View(users.ToList());
+
+            }
+            return View(users.Where(c => c.userID == user.userID));
         }
 
         // GET: User/Details/5

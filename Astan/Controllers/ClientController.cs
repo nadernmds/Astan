@@ -26,14 +26,28 @@ namespace Astan.Controllers
         // GET: Client
         public ActionResult Index()
         {
-            var clients = db.Clients.Include(c => c.HealthState).Include(c => c.Mosque).Include(c => c.Piority).Include(c => c.User);
+            IEnumerable<Client> clients;
+            
+            if (user.isAdmin())
+            {
+                clients = db.Clients.Include(c => c.HealthState).Include(c => c.Mosque).Include(c => c.Piority).Include(c => c.User);
+            }
+            else
+            {
+                clients = db.Clients.Include(c => c.HealthState).Include(c => c.Mosque).Include(c => c.Piority).Include(c => c.User).Where(c => c.userID == user.userID);
+            }
             return View(clients.DecodeClients().ToList());
         }
         [HttpPost]
         public ActionResult index(string obj)
         {
-            var s = db.Clients.Where(c => c.mobile == obj || c.nationalCode == obj).FirstOrDefault();
-            return View("res",s);
+            obj = (obj ?? "").EncodeItem();
+            var s = db.Clients.Where(c => c.mobile == obj || c.nationalCode == obj);
+            //if (s != null)
+            //{
+            //    return RedirectToAction("details", new { id = s.clientID });
+            //}
+            return View(viewName: "res", model: s.DecodeClients());
         }
 
         // GET: Client/Details/5
@@ -47,6 +61,11 @@ namespace Astan.Controllers
             if (client == null)
             {
                 return HttpNotFound();
+            }
+            if (client.userID!=user.userID|| user.isAdmin())
+            {
+                return HttpNotFound();
+
             }
             return View(client.DecodeClient());
         }
@@ -71,7 +90,9 @@ namespace Astan.Controllers
             if (ModelState.IsValid)
             {
                 client.birthDay = birthDay.toMiladiDate();
+                client.userID = user.userID;
                 db.Clients.Add(client.EncodeClient());
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -94,6 +115,11 @@ namespace Astan.Controllers
             if (client == null)
             {
                 return HttpNotFound();
+            }
+            if (client.userID != user.userID || user.isAdmin())
+            {
+                return HttpNotFound();
+
             }
             ViewBag.healthStateID = new SelectList(db.HealthStates, "healthStateID", "healthStateType", client.healthStateID);
             ViewBag.mosqueID = new SelectList(db.Mosques, "mosqueID", "mosqueName", client.mosqueID);

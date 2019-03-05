@@ -35,5 +35,6 @@ namespace Astan.Models
         public virtual DbSet<BenefitType> BenefitTypes { get; set; }
         public virtual DbSet<HomeState> HomeStates { get; set; }
         public virtual DbSet<Education> Educations { get; set; }
+        public virtual DbSet<Faq> Faqs { get; set; }
     }
 }

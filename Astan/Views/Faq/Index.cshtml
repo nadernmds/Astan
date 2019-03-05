@@ -1,0 +1,38 @@
+﻿@model IEnumerable<Astan.Models.Faq>
+
+@{
+    ViewBag.Title = "";
+}
+
+
+<p>
+    @Html.ActionLink("جدید", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.question)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.User.username)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.question)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.User.username)
+        </td>
+        <td>
+            @Html.ActionLink("ویرایش", "Edit", new { id=item.faqID }) |
+            @Html.ActionLink("مشاهده", "Details", new { id=item.faqID }) |
+            @Html.ActionLink("حذف", "Delete", new { id=item.faqID })
+        </td>
+    </tr>
+}
+
+</table>

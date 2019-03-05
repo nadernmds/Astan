@@ -8,6 +8,20 @@ using System.Web;
 
 namespace Astan.Models
 {
+    [MetadataType(typeof(MetaFaq))]
+    partial class Faq
+    {
+
+    }
+    internal class MetaFaq
+    {
+
+        [DisplayName("انتقاد یا پیشنهاد")]
+        [Display(Name = "انتقاد یا پیشنهاد")]
+        [Required(ErrorMessage ="اجباری است")]
+        public string question { get; set; }
+
+    }
     internal class MetaClient
     {
         public long clientID { get; set; }

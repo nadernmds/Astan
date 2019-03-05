@@ -111,6 +111,14 @@
           <Property Name="userGroupID" Type="int" />
           <Property Name="mosqueID" Type="bigint" />
         </EntityType>
+        <EntityType Name="Faqs">
+          <Key>
+            <PropertyRef Name="faqID" />
+          </Key>
+          <Property Name="faqID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="question" Type="nvarchar(max)" />
+          <Property Name="userID" Type="bigint" />
+        </EntityType>
         <Association Name="FK_ClientMembers_Clients">
           <End Role="Clients" Type="Self.Clients" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
@@ -211,6 +219,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Faqs_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="0..1" />
+          <End Role="Faqs" Type="Self.Faqs" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="Faqs">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Users_Mosques">
           <End Role="Mosques" Type="Self.Mosques" Multiplicity="0..1" />
           <End Role="Users" Type="Self.Users" Multiplicity="*" />
@@ -258,6 +278,7 @@
           <EntitySet Name="Piorities" EntityType="Self.Piorities" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="userGroups" EntityType="Self.userGroups" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Faqs" EntityType="Self.Faqs" Schema="topbilb1_astan22" store:Type="Tables" />
           <AssociationSet Name="FK_ClientMembers_Clients" Association="Self.FK_ClientMembers_Clients">
             <End Role="Clients" EntitySet="Clients" />
             <End Role="ClientMembers" EntitySet="ClientMembers" />
@@ -289,6 +310,10 @@
           <AssociationSet Name="FK_Clients_Users" Association="Self.FK_Clients_Users">
             <End Role="Users" EntitySet="Users" />
             <End Role="Clients" EntitySet="Clients" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Faqs_Users" Association="Self.FK_Faqs_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Faqs" EntitySet="Faqs" />
           </AssociationSet>
           <AssociationSet Name="FK_Users_Mosques" Association="Self.FK_Users_Mosques">
             <End Role="Mosques" EntitySet="Mosques" />
@@ -372,6 +397,7 @@
           <NavigationProperty Name="Clients" Relationship="AstanModel.FK_Clients_Users" FromRole="User" ToRole="Client" />
           <Property Name="mosqueID" Type="Int64" />
           <NavigationProperty Name="Mosque" Relationship="AstanModel.FK_Users_Mosques" FromRole="User" ToRole="Mosque" />
+          <NavigationProperty Name="Faqs" Relationship="AstanModel.FK_Faqs_Users" FromRole="User" ToRole="Faq" />
         </EntityType>
         <Association Name="FK_ClientMembers_HealthStates">
           <End Role="HealthStates" Type="Self.HealthState" Multiplicity="0..1" />
@@ -447,6 +473,11 @@
           <AssociationSet Name="FK_Clients_Educations" Association="AstanModel.FK_Clients_Educations">
             <End Role="Education" EntitySet="Educations" />
             <End Role="Client" EntitySet="Clients" />
+          </AssociationSet>
+          <EntitySet Name="Faqs" EntityType="AstanModel.Faq" />
+          <AssociationSet Name="FK_Faqs_Users" Association="AstanModel.FK_Faqs_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Faq" EntitySet="Faqs" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Client">
@@ -609,6 +640,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Faq">
+          <Key>
+            <PropertyRef Name="faqID" />
+          </Key>
+          <Property Name="faqID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="question" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="userID" Type="Int64" />
+          <NavigationProperty Name="User" Relationship="AstanModel.FK_Faqs_Users" FromRole="Faq" ToRole="User" />
+        </EntityType>
+        <Association Name="FK_Faqs_Users">
+          <End Type="AstanModel.User" Role="User" Multiplicity="0..1" />
+          <End Type="AstanModel.Faq" Role="Faq" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="userID" />
+            </Principal>
+            <Dependent Role="Faq">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -728,6 +780,15 @@
               <MappingFragment StoreEntitySet="Educations">
                 <ScalarProperty Name="educationName" ColumnName="educationName" />
                 <ScalarProperty Name="educationID" ColumnName="educationID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Faqs">
+            <EntityTypeMapping TypeName="AstanModel.Faq">
+              <MappingFragment StoreEntitySet="Faqs">
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="question" ColumnName="question" />
+                <ScalarProperty Name="faqID" ColumnName="faqID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

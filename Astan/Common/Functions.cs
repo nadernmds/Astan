@@ -14,6 +14,13 @@ namespace System
 {
     public static class ExtentionFuncs
     {
+
+        public static bool isAdmin(this User user)
+        {
+            return user.userGroupID == 1 || user.userGroupID == 2;
+        }
+
+
         public static IEnumerable<Client> EncodeClients(this IEnumerable<Client> clients)
         {
             foreach (var client in clients)
@@ -38,6 +45,11 @@ namespace System
         {
             return item.FromBase64(Key.ToBase64());
         }
+        public static string EncodeItem(this string item)
+        {
+            string KeyData = Key.ToBase64();
+            return item.ToBase64(KeyData);
+        }
         public static IEnumerable<Client> DecodeClients(this IEnumerable<Client> clients)
         {
             foreach (var client in clients)
@@ -47,6 +59,10 @@ namespace System
         }
         public static Client DecodeClient(this Client client)
         {
+            if (client == null)
+            {
+                return new Client();
+            }
             string KeyData = Key.ToBase64();
             client.name = client.name.FromBase64(KeyData);
             client.fatherName = client.fatherName.FromBase64(KeyData);

@@ -1,16 +1,108 @@
-﻿@model Astan.Models.Client
+﻿@model IEnumerable<Astan.Models.Client>
+@using pep
 @{
-    ViewBag.Title = "res";
+    ViewBag.Title = "";
 }
 
-<h1>
-    @Model.name
-</h1>
-<h1>
-    @Model.fatherName
-</h1>
-<h1>
-    @Model.nationalCode
-</h1>
 
 
+
+<div class="table-responsive">
+
+
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fatherName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.nationalCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.jobtitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.birthDay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.homeAdress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.mobile)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.need)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.maried)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HealthState.healthStateType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Mosque.mosqueName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Piority.priortyType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.User.username)
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.fatherName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nationalCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.jobtitle)
+                </td>
+                <td>
+                    @((item.birthDay ?? DateTime.Now).ToPersianDateShortString())
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.homeAdress)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.mobile)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.need)
+                </td>
+                <td>
+                    @(item.maried.Value ? "متاهل" : "مجرد")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HealthState.healthStateType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Mosque.mosqueName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Piority.priortyType)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.User.username)
+                </td>
+                <td>
+                    @Html.ActionLink("ویرایش", "Edit", new { id = item.clientID }) |
+                    @Html.ActionLink("مشاهده", "Details", new { id = item.clientID }) |
+                    @Html.ActionLink("حذف", "Delete", new { id = item.clientID })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

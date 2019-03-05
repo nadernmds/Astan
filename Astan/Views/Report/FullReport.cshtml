@@ -1,4 +1,4 @@
-﻿@model  IEnumerable<SupportManagemantSystem.Models.WorkSheet>
+﻿@model  IEnumerable<Astan.Models.FullReport>
 
 @{
     int i = 1;
@@ -7,38 +7,38 @@
     <tr>
         <th>ردیف</th>
         <th>
-            زمان صرف شده
+            تعداد مخدومین
         </th>
         <th>
-            پروژه
+            تعداد اعضای خانواده های مخدومین
         </th>
         <th>
-            شرکت
+            جمع
         </th>
     </tr>
 
-    @foreach (var item in Model.Where(c => c.Minutes > 0))
+    @foreach (var item in Model)
     {
         <tr>
             <td>@(i++)</td>
             <td>
-                @Html.DisplayFor(modelItem => item.Minutes)
+                @Html.DisplayFor(modelItem => item.ClientsCount)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.projectName)
+                @Html.DisplayFor(modelItem => item.ClinetMemberCount)
             </td>
 
             <td>
-                @Html.DisplayFor(modelItem => item.CompanyName)
+                @Html.DisplayFor(modelItem => item.Count)
             </td>
         </tr>
     }
-    <tr>
+    @*<tr>
         <td>جمع کل</td>
         <td>
             @Model.Sum(c => c.Minutes)
         </td>
         <td></td>
         <td></td>
-    </tr>
+    </tr>*@
 </table>
