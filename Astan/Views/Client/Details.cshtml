@@ -79,7 +79,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.maried)
+             @((Model.maried??false)?"متاهل":"مجرد")
         </dd>
 
         <dt>

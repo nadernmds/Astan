@@ -10,7 +10,7 @@ using Astan.Models;
 
 namespace Astan.Controllers
 {
-    [RequsetLogin]
+    [RequsetLogin(1,2)]
 
     public class HealthStateController : Controller
     {

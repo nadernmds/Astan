@@ -59,7 +59,7 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="PepDateTime">
-      <HintPath>..\..\..\Astan\Astan\Astan\bin\PepDateTime.dll</HintPath>
+      <HintPath>F:\old win 10 bakup\source\repos\tito2\Rizkaran_Site\Rizkaran_Site\obj\Release\Package\PackageTmp\bin\PepDateTime.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />

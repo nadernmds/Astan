@@ -14,12 +14,32 @@ namespace Astan.Controllers
     public class ClientMemberController : Controller
     {
         private AstanEntities db = new AstanEntities();
-
-        // GET: ClientMember
-        public ActionResult Index()
+        User user = new User();
+        public ClientMemberController()
         {
-            var clientMembers = db.ClientMembers.Include(c => c.Client).Include(c => c.HealthState);
+            if (System.Web.HttpContext.Current.Session["RPG"] != null)
+            {
+                user = System.Web.HttpContext.Current.Session["RPG"] as User;
+            }
+        }
+        // GET: ClientMember
+        public ActionResult Index(long? id)
+        {
+            IEnumerable<ClientMember> clientMembers;
+            if (id.HasValue)
+            {
+                clientMembers = db.ClientMembers.Include(c => c.Client).Include(c => c.HealthState).Where(c => c.clientID == id);
+            }
+            else
+            {
+                clientMembers = db.ClientMembers.Include(c => c.Client).Include(c => c.HealthState);
+            }
+            if (!user.isAdmin())
+            {
+                return View(clientMembers.Where(c => c.Client?.userID == user.userID).ToList());
+            }
             return View(clientMembers.ToList());
+
         }
 
         // GET: ClientMember/Details/5
@@ -40,7 +60,8 @@ namespace Astan.Controllers
         // GET: ClientMember/Create
         public ActionResult Create()
         {
-            ViewBag.clientID = new SelectList(db.Clients.DecodeClients(), "clientID", "name");
+            var isAdmin = user.isAdmin();
+            ViewBag.clientID = new SelectList(db.Clients.Where(c=> c.userID==user.userID||isAdmin).DecodeClients(), "clientID", "name");
             ViewBag.healthStateID = new SelectList(db.HealthStates, "healthStateID", "healthStateType");
             return View();
         }
@@ -58,8 +79,9 @@ namespace Astan.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            var isAdmin = user.isAdmin();
+            ViewBag.clientID = new SelectList(db.Clients.Where(c => c.userID == user.userID || isAdmin).DecodeClients(), "clientID", "name",clientMember.clientID);
 
-            ViewBag.clientID = new SelectList(db.Clients.DecodeClients(), "clientID", "name", clientMember.clientID);
             ViewBag.healthStateID = new SelectList(db.HealthStates, "healthStateID", "healthStateType", clientMember.healthStateID);
             return View(clientMember);
         }
@@ -76,7 +98,9 @@ namespace Astan.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.clientID = new SelectList(db.Clients.DecodeClients(), "clientID", "name", clientMember.clientID);
+
+            var isAdmin = user.isAdmin();
+            ViewBag.clientID = new SelectList(db.Clients.Where(c => c.userID == user.userID || isAdmin).DecodeClients(), "clientID", "name", clientMember.clientID);
             ViewBag.healthStateID = new SelectList(db.HealthStates, "healthStateID", "healthStateType", clientMember.healthStateID);
             return View(clientMember);
         }
@@ -94,7 +118,8 @@ namespace Astan.Controllers
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            ViewBag.clientID = new SelectList(db.Clients.DecodeClients(), "clientID", "name", clientMember.clientID);
+            var isAdmin = user.isAdmin();
+            ViewBag.clientID = new SelectList(db.Clients.Where(c => c.userID == user.userID || isAdmin).DecodeClients(), "clientID", "name", clientMember.clientID);
             ViewBag.healthStateID = new SelectList(db.HealthStates, "healthStateID", "healthStateType", clientMember.healthStateID);
             return View(clientMember);
         }

@@ -27,7 +27,7 @@ namespace Astan.Controllers
         public ActionResult Index()
         {
             IEnumerable<Client> clients;
-            
+
             if (user.isAdmin())
             {
                 clients = db.Clients.Include(c => c.HealthState).Include(c => c.Mosque).Include(c => c.Piority).Include(c => c.User);
@@ -62,12 +62,14 @@ namespace Astan.Controllers
             {
                 return HttpNotFound();
             }
-            if (client.userID!=user.userID|| user.isAdmin())
+            if (client.userID == user.userID || user.isAdmin())
             {
-                return HttpNotFound();
+                return View(client.DecodeClient());
+
 
             }
-            return View(client.DecodeClient());
+            return HttpNotFound();
+
         }
 
         // GET: Client/Create
@@ -116,16 +118,17 @@ namespace Astan.Controllers
             {
                 return HttpNotFound();
             }
-            if (client.userID != user.userID || user.isAdmin())
+            if (client.userID == user.userID || user.isAdmin())
             {
-                return HttpNotFound();
+                ViewBag.healthStateID = new SelectList(db.HealthStates, "healthStateID", "healthStateType", client.healthStateID);
+                ViewBag.mosqueID = new SelectList(db.Mosques, "mosqueID", "mosqueName", client.mosqueID);
+                ViewBag.pirorityID = new SelectList(db.Piorities, "pirorityID", "priortyType", client.pirorityID);
+                ViewBag.userID = new SelectList(db.Users, "userID", "username", client.userID);
+                return View(client.DecodeClient());
+
 
             }
-            ViewBag.healthStateID = new SelectList(db.HealthStates, "healthStateID", "healthStateType", client.healthStateID);
-            ViewBag.mosqueID = new SelectList(db.Mosques, "mosqueID", "mosqueName", client.mosqueID);
-            ViewBag.pirorityID = new SelectList(db.Piorities, "pirorityID", "priortyType", client.pirorityID);
-            ViewBag.userID = new SelectList(db.Users, "userID", "username", client.userID);
-            return View(client.DecodeClient());
+            return HttpNotFound();
         }
 
         // POST: Client/Edit/5
